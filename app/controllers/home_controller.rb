@@ -6,6 +6,9 @@ class HomeController < ApplicationController
   end
 
   def search
+    json = {}
+    json[0] = {}
+    json[0]["fullImageUrl"] = ""
     price = begin
               card_name = params[:q].clone
               card_name.gsub! " ", "+"
@@ -17,6 +20,7 @@ class HomeController < ApplicationController
 
     render json: {
              n: params[:q],
+             i: json[0]["fullImageUrl"],
              v: price.to_f * (params[:amount] ? params[:amount].to_f : 1.0),
              a: (params[:amount] ? params[:amount].to_i : 1)
            }

@@ -1,4 +1,4 @@
-<style>.container { width:700px;}</style>
+<style>.container { width:700px; }.floatit{position:absolute;right:10px;top:10px;width:300px;z-index:99999;}.floatit:hover {opacity:0.4; }</style>
 <div class="container">
       <div class="header clearfix">
         <h3 class="text-muted">MTG card price searcher</h3>
@@ -18,6 +18,7 @@
         <h4>Price for this deck: <b id="full_deck_price"></b></h4>
         <hr />
         <ul id="price_breakdown"></ul>
+        <img src="" class="floatit" />
       </div>
 
       <footer class="footer">
@@ -32,10 +33,12 @@
          if(timer) {
            clearTimeout(timer);
            $("#single_card_price").text("loading price...")
+           $(".floatit").attr('src','')
          }
          timer = setTimeout(function(){
            $.getJSON("/search", { q: $("#card_name").val() }, function(json){
-             $("#single_card_price").text("$"+json.v)
+             $("#single_card_price").text("$"+json.v);
+             $(".floatit").attr('src', json.i)
            })
          }, 500);
        });
