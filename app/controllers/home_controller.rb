@@ -10,8 +10,7 @@ class HomeController < ApplicationController
               card_name = params[:q].clone
               card_name.gsub! " ", "+"
               json = JSON.load(open_url("http://www.mtgprice.com/cardNameSearch?name=#{card_name}"))
-              puts "http://www.mtgprice.com/cardNameSearch?name=#{card_name}"
-              last_price = json.map { |card_data| card_data["lowestPrice"] }.min_by{ |k,v| v }
+              last_price = json.map { |card_data| card_data["lowestPrice"] }.min_by{ |v| v.to_f }
             rescue
               0.0
             end
