@@ -29,13 +29,13 @@
     <script type="text/javascript">
      $(document).ready(function(){
        var timer = false;
-       $("#card_name").on('keyup', function(e){
+       $("#card_name").on('change', function(e){
          if(timer) {
            clearTimeout(timer);
            $("#single_card_price").text("loading price...")
-           $(".floatit").attr('src','')
          }
          timer = setTimeout(function(){
+           $(".floatit").attr('src','')
            $.getJSON("/search", { q: $("#card_name").val() }, function(json){
              $("#single_card_price").text("$"+json.v);
              $(".floatit").attr('src', json.i)
