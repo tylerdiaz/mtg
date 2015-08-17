@@ -1,0 +1,74 @@
+<style>.container { width:700px;}</style>
+<div class="container">
+      <div class="header clearfix">
+        <h3 class="text-muted">MTG card price searcher</h3>
+      </div>
+
+      <div class="jumbotron">
+        <div class="input-group">
+          <input type="text" class="form-control input-lg" id="card_name" placeholder="Card Name...">
+        </div>
+        Price for "this card": <b id="single_card_price"></b>
+        <hr />
+        <div class="input-group">
+          <textarea rows="8" cols="80" class="form-control input-lg" id="card_deck" placeholder="Paste your deck by clicking the Copy button on the deck-editor toolbar in LackeyCCG. (near save-deck)"></textarea>
+        </div>
+        <br />
+        <button class="btn btn-lg btn-success">Price this deck</button><br />
+        <h4>Price for this deck: <b id="full_deck_price"></b></h4>
+        <hr />
+        <ul id="price_breakdown"></ul>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Tyler Diaz 2015</p>
+      </footer>
+
+    </div> <!-- /container -->
+    <script type="text/javascript">
+     $(document).ready(function(){
+       var timer = false;
+       $("#card_name").on('keyup', function(e){
+         if(timer) {
+           clearTimeout(timer);
+           $("#single_card_price").text("loading price...")
+         }
+         timer = setTimeout(function(){
+           $.getJSON("/search", { q: $("#card_name").val() }, function(json){
+             $("#single_card_price").text("$"+json.v)
+           })
+         }, 500);
+       });
+
+     $(".btn-success").on('click', function(e){
+       $("#full_deck_price").text("calculating deck price...");
+       var lists ="";
+       $("#price_breakdown").html("")
+
+       var jxhr = [];
+       var result = 0;
+       $("#card_deck").val().split("\n").map(function(data){
+         card_data = data.split("\t")
+           if(card_data[1]){
+             jxhr.push(
+               $.getJSON("/search",{ q: card_data[1], amount: card_data[0]}, function (json) {
+                 result += json.v;
+                 lists += "<li>x"+json.a+" "+json.n+" costs $"+json.v+"</li>"
+                 $("#price_breakdown").html(lists)
+               })
+             );
+           }
+       });
+
+       $.when.apply($, jxhr).done(function() {
+         lists += "<li>---------------------</li>";
+         lists += "<li><b>Total cost:</b> $"+result.toFixed(2)+"</li>";
+         $("#price_breakdown").html(lists);
+         $("#full_deck_price").text("$"+(result.toFixed(2)));
+       });
+
+     });
+
+     });
+
+    </script>
