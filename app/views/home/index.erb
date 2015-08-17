@@ -29,7 +29,7 @@
     <script type="text/javascript">
      $(document).ready(function(){
        var timer = false;
-       $("#card_name").on('change', function(e){
+       $("#card_name").on('keydown', function(e){
          if(timer) {
            clearTimeout(timer);
            $("#single_card_price").text("loading price...")
