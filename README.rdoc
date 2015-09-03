@@ -1,28 +1,3 @@
-== README
+My freins and I were setting limits to how much a deck could be worth (one way to cap mythical/are card abuse). We needed a way to price a deck quickly to let us make small modifications without having to keep the whole thing on paper/excel to this was invented.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Rails app for this is super overkill considering it's one route and one html file. Oh well. :)
